@@ -1,4 +1,5 @@
 const express = require('express');
+const { productsModel } = require('./models');
 
 const app = express();
 
@@ -7,4 +8,8 @@ app.get('/', (_request, response) => {
   response.json({ status: 'Store Manager UP!' });
 });
 
+app.get('/products', async (req, res) => {
+  const products = await productsModel.findAll();
+  res.status(200).json(products);
+});
 module.exports = app;
