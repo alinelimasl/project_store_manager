@@ -1,18 +1,15 @@
 const service = require('../services');
-// const httpCodeMap = require('../util/httpCodeMap');
+// const { getStatusCode } = require('../util/httpCodeMap');
 
 const getAllProducts = async (_req, res) => {
-  const { message, status } = await service.getAllProducts();
-  return res.status(status).json(message);
+  const { status, data } = await service.getAllProducts();
+  return res.status(status).json(data);  
 };
 
 const getProductsById = async (req, res) => {
   const { id } = req.params;
-  const { type, message, status } = await service.getProductsById(id);
-  if (type) {
-    return res.status(status).json({ message });
-  }
-  return res.status(status).json(message);
+  const { status, data } = await service.getProductsById(id);
+  return res.status(status).json(data);
 };
 
 module.exports = {

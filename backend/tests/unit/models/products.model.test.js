@@ -1,34 +1,26 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
-const { productsModel } = require('../../../src/models/products.model');
-const { productsFromDB } = require('../mock/products.mock');
+const model = require('../../../src/models');
+const mocks = require('../mock/products.mock');
 
-describe('Testando o model de produtos', function () {
+describe('Realizando testes - model de produtos', function () {
   it('Recuperando products com sucesso', async function () {
-    sinon.stub(connection, 'execute').resolves([[productsFromDB]]);
+    sinon.stub(connection, 'execute').resolves([[mocks.getAllProductsDB]]);
     
-    const products = await productsModel.findAll();
+    const products = await model.getAllProducts();
+
     expect(products).to.be.an('array');
-    expect(products).to.have.lengthOf(5);
-    expect(products).to.be.deep.equal(productsFromDB);
+    expect(products).to.have.lengthOf(1);
+    expect(products[0]).to.be.deep.equals(mocks.getAllProductsDB);
   });
   
   it('Recuperando products por id com sucesso', async function () {
-    sinon.stub(connection, 'execute').resolves([[productsFromDB]]);
+    sinon.stub(connection, 'execute').resolves([[mocks.getProductsByIdDB]]);
   
-    const inputData = 1;
-    const products = await productsModel.findById(inputData);
+    const products = await model.getProductsById(1);
     expect(products).to.be.an('object');
-    expect(products).to.be.deep.equal(productsFromDB);
-  });
-  
-  it('Erro ao recuperar products', async function () {
-    sinon.stub(connection, 'execute').resolves([[]]);
-  
-    const products = await productsModel.findById();
-  
-    expect(products).to.be.equal(undefined);
+    expect(products).to.be.deep.equals(mocks.getProductsByIdDB);
   });
   
   afterEach(function () {

@@ -1,33 +1,31 @@
 const { expect } = require('chai');
-const Sinon = require('sinon');
-const productsModel = require('../../../src/models/products.model');
-const productsService = require('../../../src/services/products.service');
+const sinon = require('sinon');
+const model = require('../../../src/models');
+const mocks = require('../mock/products.mock');
+const service = require('../../../src/services');
 
-describe('Products Service', function () {
-  describe('Create a product', function () {
-    it('Deve retornar ao tentar cadastrar um produto com erro', async function () {
-      const products = {
-        id: 4, name: 'Produto 4',
-      };
-      const { status, data } = await productsService.createProduct(products);
+describe('Realizando testes - serviço do produto', function () {
+  describe('Testando services', function () {
+    it('Deve retornar um produto', async function () {
+      sinon.stub(model, 'getAllProducts').resolves({ status: 'SUCCESS', data: mocks.getAllProductsDB });
 
-      expect(status).to.be.equal('INVALID_DATA');
-      expect(data).to.be.equal('Product not found');
+      const products = await service.getAllProducts();
+      expect(products).to.be.an('object');
+      expect(products.status).to.be.equal('SUCCESS');
+      expect(products.data).to.be.an('object');
     });
-  });
-  it('Deve retornar ao tentar cadastrar um produto com sucesso', async function () {
-    const products = {
-      id: 2, name: 'Traje de encolhimento',
-    };
 
-    Sinon.stub(productsModel, 'createProducts').resolves(products);
+    it('Deve retornar o id do produto', async function () {
+      const productId = 1;
+      sinon.stub(model, 'getProductsById').resolves({ status: 'SUCCESS', data: mocks.getProductsByIdDB });
 
-    const { status, data } = await productsService.createProduct(products);
+      const product = await service.getProductsById(productId);
+      expect(product).to.be.an('object');
+      expect(product.status).to.be.equal('SUCCESS');
+    });
 
-    expect(status).to.be.equal('CREATED');
-    expect(data).to.be.deep.equal(products);
-  });
-  afterEach(function () {
-    Sinon.restore();
+    afterEach(function () {
+      sinon.restore();
+    });
   });
 });
