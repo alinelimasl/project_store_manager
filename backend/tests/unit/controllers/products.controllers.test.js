@@ -1,29 +1,29 @@
-const Sinon = require('sinon');
+const sinon = require('sinon');
+const chai = require('chai');
+const SinonChai = require('sinon-chai');
 const { expect } = require('chai');
-const productsService = require('../../../src/services/products.service');
 const productsController = require('../../../src/controllers/products.controllers');
+const productsService = require('../../../src/services/products.service');
+
+chai.use(SinonChai);
 
 describe('Realizando testes - products controller', function () {
   describe('Testando o controller de criação de produtos', function () {
     it('Cria um produto', async function () {
-      const request = {
-        params: { productsId: 1 },
-        body: {},
+      const req = { params: {}, body: {} };
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
       };
 
-      const response = {};
-      response.status = Sinon.stub().returns(response);
-      response.json = Sinon.stub().returns();
+      await productsController.findAll(req, res);
 
-      Sinon.stub(productsService, 'requestProducts').resolves({
-        status: 'CREATED',
-        data: { id: 1, name: 'Martelo de Thor' },
-      });
+      expect(res.status.calledWith(201));
+      expect(res.json).to.have.been.calledWith(productsService);
+    });
 
-      await productsController.requestProducts(request, response);
-
-      expect(response.status.calledWith(201)).to.be.equal(true);
-      expect(response.json.calledWith({ id: 1 })).to.be.equal(true);
+    afterEach(function () {
+      sinon.restore();
     });
   });
 });

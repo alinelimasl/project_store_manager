@@ -10,6 +10,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRouter);
-app.get('/products/:id', productsRouter);
+app.use('/products/:id', productsRouter);
 
 module.exports = app;

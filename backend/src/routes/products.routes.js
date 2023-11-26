@@ -1,16 +1,15 @@
 const { Router } = require('express');
-const productsModel = require('../models/products.model');
+// const productsService = require('../services/products.service');
+const controller = require('../controllers');
 
 const productsRouter = Router();
 
-productsRouter.get('/', async (req, res) => {
-  const products = await productsModel.findAll();
-  res.status(200).json(products);
-});
-productsRouter.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const productsId = await productsModel.findById(id);
-  res.status(200).json(productsId);
-});
+productsRouter.get('/', controller.getAllProducts);
+
+// productsRouter.get('/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const product = await productsService.findById(id);
+//   return res.status(200).json(product);
+// });
 
 module.exports = productsRouter;

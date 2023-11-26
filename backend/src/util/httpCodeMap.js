@@ -8,7 +8,4 @@ const httpCodeMap = {
   
 const getStatusCode = (status) => httpCodeMap[status] || 500;
   
-module.exports = {
-  getStatusCode,
-  httpCodeMap,
-};
+module.exports = getStatusCode;
