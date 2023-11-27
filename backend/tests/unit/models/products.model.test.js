@@ -1,14 +1,14 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
-const model = require('../../../src/models');
+const modelProduct = require('../../../src/models/products.model');
 const mocks = require('../mock/products.mock');
 
 describe('Realizando testes - model de produtos', function () {
   it('Recuperando products com sucesso', async function () {
     sinon.stub(connection, 'execute').resolves([[mocks.getAllProductsDB]]);
     
-    const products = await model.getAllProducts();
+    const products = await modelProduct.getAllProducts();
 
     expect(products).to.be.an('array');
     expect(products).to.have.lengthOf(1);
@@ -18,7 +18,7 @@ describe('Realizando testes - model de produtos', function () {
   it('Recuperando products por id com sucesso', async function () {
     sinon.stub(connection, 'execute').resolves([[mocks.getProductsByIdDB]]);
   
-    const products = await model.getProductsById(1);
+    const products = await modelProduct.getProductsById(1);
     expect(products).to.be.an('object');
     expect(products).to.be.deep.equals(mocks.getProductsByIdDB);
   });

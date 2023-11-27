@@ -8,8 +8,6 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.json({ status: 'Store Manager UP!' });
 });
-
 app.use('/products', productsRouter);
-// app.use('/products/:id', productsRouter);
 
 module.exports = app;

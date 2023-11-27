@@ -5,9 +5,7 @@ const httpCodeMap = {
   CONFLICT: 409,
   NOT_FOUND: 404,
 };
-  
+
 const getStatusCode = (status) => httpCodeMap[status] || 500;
-  
-module.exports = {
-  getStatusCode,
-};
+
+module.exports = getStatusCode;
