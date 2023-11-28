@@ -10,9 +10,6 @@ const getAllSales = async () => {
   return camelize(results);
 };
 
-module.exports = {
-  getAllSales,
-};
 const getSaleById = async (id) => {
   const [result] = await connection.execute(
     `SELECT sa.date, sap.product_id, sap.quantity FROM sales AS sa 
