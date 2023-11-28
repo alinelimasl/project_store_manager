@@ -35,6 +35,14 @@ describe('Realizando testes - serviço do produto', function () {
     expect(product.data.message).to.be.equal('Product not found');
   });
 
+  it('Recuperando ao cadastrar produto', async function () {
+    sinon.stub(productModel, 'getCreateProduct').resolves(5);
+    const product = await serviceProduct.getCreateProduct({ name: 'ProdutoA' });
+  
+    expect(product.status).to.be.deep.equal('CREATED');
+    expect(product.data).to.be.deep.equal({ id: 5, name: 'ProdutoA' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

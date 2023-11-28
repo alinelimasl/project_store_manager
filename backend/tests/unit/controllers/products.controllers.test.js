@@ -50,7 +50,21 @@ describe('Realizando testes - controller dos produtos', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(productsServiceDbByProductIdError.data);
   });
-  
+
+  it('Rota de cadastro de produtos', async function () {
+    sinon.stub(serviceProduct, 'getCreateProduct').resolves({ status: 'CREATED', data: { id: 5, name: 'ProdutoA' } });
+    const req = { body: { name: 'ProdutoA' }, params: {} };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await controllerProduct.getCreateProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith({ id: 5, name: 'ProdutoA' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
