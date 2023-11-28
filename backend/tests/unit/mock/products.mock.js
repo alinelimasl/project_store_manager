@@ -13,12 +13,31 @@ const getAllProductsDB = [
   },
 ];
 
-const getProductsByIdDB = {
-  id: 1,
-  name: 'Martelo de Thor',
+const getProductsByIdDB = [
+  {
+    id: 1,
+    name: 'Martelo de Thor',
+  },
+];
+
+const productsServiceDb = {
+  status: 'SUCCESS',
+  data: getAllProductsDB,
+};
+
+const productsServiceDbByProductId = {
+  status: 'SUCCESS',
+  data: getProductsByIdDB,
+};
+const productsServiceDbByProductIdError = {
+  status: 'NOT_FOUND',
+  data: { message: 'Product not found' },
 };
 
 module.exports = {
   getAllProductsDB,
   getProductsByIdDB,
+  productsServiceDb,
+  productsServiceDbByProductId,
+  productsServiceDbByProductIdError,
 };

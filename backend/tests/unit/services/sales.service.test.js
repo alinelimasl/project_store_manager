@@ -27,6 +27,7 @@ describe('Realizando testes - service de sales', function () {
     expect(sales.data).to.be.an('array');
     expect(sales.data).to.have.lengthOf(2);
   });
+  
   it('Recuperando sales por id com erro', async function () {
     sinon.stub(salesModel, 'getSaleById').resolves([]);
     const sales = await salesService.getSaleById(5555555);

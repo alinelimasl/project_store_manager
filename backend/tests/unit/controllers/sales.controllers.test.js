@@ -36,6 +36,7 @@ describe('Realizando testes - controller das sales', function () {
     expect(res.status).to.have.been.calledWith(200);
     expect(res.json).to.have.been.calledWith(salesServiceDbByProductId.data);
   });
+  
   it('Rota de sales por id com erro', async function () {
     sinon.stub(serviceSales, 'getSaleById').resolves(salesServiceDbByProductIdError);
     const req = { body: {}, params: { id: 5555555 } };
