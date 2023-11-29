@@ -43,6 +43,13 @@ describe('Realizando testes - model de produtos', function () {
     expect(products).to.be.an('object');
     expect(products).to.be.deep.equal({ id: 1, name: 'ProdutoA' });
   });
+
+  it('Testa erro ao cadastrar produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: undefined }]);
+    const products = await modelProduct.getCreateProduct({ name: 'ProdutoA' });
+    
+    expect(products).to.be.deep.equal(undefined);
+  });
   
   afterEach(function () {
     sinon.restore();

@@ -79,6 +79,20 @@ describe('Realizando testes - controller dos produtos', function () {
     expect(res.json).to.have.been.calledWith({ id: 1, name: 'ProdutoA' });
   });
 
+  it('Rota de atualização de produtos com erro', async function () {
+    sinon.stub(serviceProduct, 'getUpdateProduct').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
+    const req = { body: { name: 'ProdutoA' }, params: { id: 555555 } };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await controllerProduct.getUpdateProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

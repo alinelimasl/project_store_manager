@@ -51,6 +51,14 @@ describe('Realizando testes - serviço do produto', function () {
     expect(product.data).to.be.deep.equal({ id: 1, name: 'ProdutoA' });
   });
 
+  it('Recuperando ao atualizar produto com erro', async function () {
+    sinon.stub(productModel, 'getUpdateProduct').resolves(null);
+    const product = await serviceProduct.getUpdateProduct(55555, 'ProdutoALSL');
+  
+    expect(product.status).to.be.deep.equal('NOT_FOUND');
+    expect(product.data.message).to.be.deep.equal('Product not found');
+  });
+
   afterEach(function () {
     sinon.restore();
   });
