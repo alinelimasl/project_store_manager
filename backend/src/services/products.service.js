@@ -19,8 +19,17 @@ const getCreateProduct = async (nameProduct) => {
   return { status: 'CREATED', data: { id: createProduct, ...nameProduct } };
 };
 
+const getUpdateProduct = async (id, name) => {
+  const updateProducts = await modelProduct.getUpdateProduct({ id, name });
+  if (!updateProducts) {
+    return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+  }
+  return { status: 'SUCCESS', data: { id: Number(id), name } };
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
   getCreateProduct,
+  getUpdateProduct,
 };

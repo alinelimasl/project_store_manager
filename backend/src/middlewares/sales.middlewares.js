@@ -1,3 +1,5 @@
+const modelProduct = require('../models/products.model');
+
 const validateSales = async (req, res, next) => {
   const itemsSold = req.body;
   const salesProductId = itemsSold.some((item) => item.productId);
@@ -18,8 +20,11 @@ const validateSales = async (req, res, next) => {
 
 const productIdValid = async (req, res, next) => {
   const itemsSold = req.body;
-  const salesProductId = itemsSold.forEach((item) => item.productId);
-  if (!salesProductId || salesProductId === undefined) {
+  const salesProductId = itemsSold.map((item) => item.productId);
+  const searchId = await salesProductId.map((id) => modelProduct.getProductsById(id));
+  const products = await Promise.all(searchId);
+
+  if (products.some((product) => product === undefined)) {
     return res.status(404).json({ message: 'Product not found' }); 
   }
   next();

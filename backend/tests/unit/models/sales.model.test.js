@@ -30,6 +30,21 @@ describe('Realizando testes - model de sales', function () {
     expect(sales).to.be.an('undefined');
   });
 
+  it('Teste ao inserir sales ', async function () {
+    sinon.stub(connection, 'execute').resolves([[
+      { id: 5,
+        itemsSold: { productId: 1, quantity: 1 },
+      },
+    ]]);
+
+    const sales = await modelSale.createSale([{ productId: 1, quantity: 1 }]);
+
+    const expected = { id: 6, itemsSold: [{ productId: 1, quantity: 1 }] };
+
+    expect(sales).to.be.an('object');
+    expect(sales).to.be.deep.equal(expected);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

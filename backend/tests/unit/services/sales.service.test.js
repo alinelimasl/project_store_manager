@@ -37,6 +37,14 @@ describe('Realizando testes - service de sales', function () {
     expect(sales.data.message).to.be.equal('Sale not found');
   });
 
+  it('Teste ao inserir sales ', async function () {
+    sinon.stub(salesModel, 'createSale').resolves({ id: 6, itemsSold: [{ productId: 1, quantity: 1 }] });
+    const sales = await salesService.createSale([{ productId: 1, quantity: 1 }]);
+
+    expect(sales.status).to.be.deep.equal('CREATED');
+    expect(sales.data).to.be.deep.equal({ id: 6, itemsSold: [{ productId: 1, quantity: 1 }] });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

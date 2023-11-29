@@ -50,6 +50,20 @@ describe('Realizando testes - controller das sales', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(salesServiceDbByProductIdError.data);
   });
+
+  it('Rota de cadastro de sales', async function () {
+    sinon.stub(serviceSales, 'createSale').resolves({ status: 'CREATED', data: { id: 6, itemsSold: [{ productId: 1, quantity: 1 }] } });
+    const req = { body: { sales: [{ productId: 1, quantity: 1 }] }, params: {} };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await controllerSale.createSale(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith({ id: 6, itemsSold: [{ productId: 1, quantity: 1 }] });
+  });
   
   afterEach(function () {
     sinon.restore();
