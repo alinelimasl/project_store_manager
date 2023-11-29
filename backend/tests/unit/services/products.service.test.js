@@ -43,6 +43,14 @@ describe('Realizando testes - serviço do produto', function () {
     expect(product.data).to.be.deep.equal({ id: 5, name: 'ProdutoA' });
   });
 
+  it('Recuperando ao atualizar produto', async function () {
+    sinon.stub(productModel, 'getUpdateProduct').resolves({ affectedRows: 1 });
+    const product = await serviceProduct.getUpdateProduct(1, 'ProdutoA');
+  
+    expect(product.status).to.be.deep.equal('SUCCESS');
+    expect(product.data).to.be.deep.equal({ id: 1, name: 'ProdutoA' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
